@@ -1,6 +1,6 @@
 import json
 import requests
-import os
+import os, sys
 
 from auth import get_access_tokens
 from config import (
@@ -144,13 +144,16 @@ def get_top_items_user(access_token: str, item_type: str) -> list:
 
 # --- Local test driver ---
 if __name__ == "__main__":
+    command = sys.argv[1]
     
-    playlist_id = "05vnccrKTWG57SMrgIQ4X9"  # your playlist ID
-
     access_token = get_access_tokens()
     
-    get_all_playlist_tracks(access_token, playlist_id)
+    if command == "playlist_tracks":
+        playlist_id = os.getenv("playlist_id")
+        get_all_playlist_tracks(access_token, playlist_id)
 
-    get_all_recently_played(access_token, url_recently_played)
+    elif command == "recently_played":
+        get_all_recently_played(access_token, url_recently_played)
 
-    get_top_items_user(access_token, "tracks")
+    elif command == "top_items_user":
+        get_top_items_user(access_token, "tracks")

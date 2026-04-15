@@ -1,4 +1,6 @@
 from dotenv import load_dotenv
+from pathlib import Path
+
 import os
 from datetime import datetime, timedelta, timezone
 
@@ -33,8 +35,12 @@ TOKEN_AUTH_URL = "https://accounts.spotify.com/api/token"
 
 TOKEN_PATH = "token.json"
 
+# Build absolute path to .env from this file's location
+env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
 # ———— Base path ————
-base_path = "data/raw"
+base_path = Path(__file__).parent.parent / "data/raw"
 
 
 def local_file_path(endpoint_type, partition_date = None): 
@@ -45,5 +51,5 @@ def local_file_path(endpoint_type, partition_date = None):
         f"{base_path}/{endpoint_type}"
         f"/Y={partition_date.year}"
         f"/M={partition_date.month:02d}"
-        f"/{endpoint_type}_{partition_date.strftime('%Y-%m-%H-%M-%S')}.json"
+        f"/{endpoint_type}_{partition_date.strftime('%Y-%m-%d-%H-%M-%S')}.json"
     )

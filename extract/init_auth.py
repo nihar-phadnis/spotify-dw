@@ -28,8 +28,8 @@ def run_init_auth():
     # 4. Get tokens (save to local file)
     access_token = get_auth_tokens(code)
 
-    with open(TOKEN_PATH, "r") as f:
-        tokens = json.load(f)
+    #with open(TOKEN_PATH, "r") as f:
+    #    tokens = json.load(f)
 
     print(f"Got access_token (truncated): {access_token[:10]}...")
 

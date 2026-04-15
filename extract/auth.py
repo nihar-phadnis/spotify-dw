@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 import base64
 import webbrowser
 import json, os
-from python-dotenv import load_dotenv
+from dotenv import load_dotenv
 
 from config import (
     REDIRECT_URL,
@@ -123,7 +123,7 @@ def refresh_access_tokens(
         "expires_at": int(time.time()) + res["expires_in"],
     }
 
-    return new_tokens["access_token"]
+    return new_tokens
 
 # ====================================
 # Main access‑token orchestrator
@@ -149,12 +149,12 @@ def get_access_tokens() -> str:
         )
 
         new_tokens = {
-            "access_token": refreshed,
+            "access_token": refreshed["access_token"],
             "refresh_token": used_refresh,  
-            "expires_at": now + 3600,
+            "expires_at": refreshed["expires_at"],
         }
         save_tokens_file(new_tokens)
-        return refreshed
+        return refreshed["access_token"]
 
     raise RuntimeError("No refresh_token available; run init_auth to bootstrap OAuth flow.")
 
