@@ -213,3 +213,5 @@ __marimo__/
 *.duckdb
 data/raw/
 dbt_spotify/profiles.yml
+tokens.json
+

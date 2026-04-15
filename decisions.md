@@ -25,3 +25,37 @@ perfect for personal project scale (& free).
 **Date:** 12th April, 2026
 **Decision:** Airflow will be the orchestrator locally, replacing AWS Lambda.
 **Reason:** Each extract function maps directly to an Airflow task.
+
+## ADR-006: Top tracks extract frequency
+**Date:** 15th April, 2026
+**Decision:** Run top tracks extract weekly rather than daily
+**Reason:** long_term time range changes slowly — daily runs would 
+add noise with minimal new signal. Recently played stays daily 
+as it captures fresh listening activity.
+
+## ADR-007: Modular script execution via sys.argv
+**Date:** 15th April, 2026
+**Decision:** Added sys.argv[1] argument to main.py to allow each 
+endpoint to be run independently from the command line
+**Reason:** Avoids commenting code in/out during development and 
+maps cleanly to individual Airflow tasks later.
+
+## ADR-008: Absolute file paths via pathlib
+**Date:** 15th April, 2026
+**Decision:** Used pathlib Path(__file__) to build absolute paths 
+for file landing locations rather than relative paths
+**Reason:** Relative paths break depending on where the script is 
+run from. Absolute paths built from the file location are robust 
+regardless of working directory.
+
+## ADR-009: Date-only filename for deterministic file landing
+**Date:** 15th April, 2026
+**Decision:** Filename uses Y-M-D only, dropping hours/minutes/seconds
+**Reason:** Ensures reruns overwrite the same file rather than 
+creating duplicates. Load timestamp is preserved inside the JSON 
+payload for debugging purposes.
+
+## ADR-010: Playlist ID moved to environment variable
+**Date:** 15th April, 2026
+**Decision:** playlist_id stored in .env rather than hardcoded in main.py
+**Reason:** Keeps secrets and config out of source code.
