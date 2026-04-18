@@ -40,7 +40,9 @@ def get_all_playlist_tracks(access_token: str, playlist_id: str) -> list:
             {
                 "song_id": track.get("id"),
                 "song_name": track.get("name"),
+                "artist_id": [artist.get("id") for artist in track.get("artists", [])],
                 "artists": [artist.get("name") for artist in track.get("artists", [])],
+                "duration_ms": track.get("duration_ms"),
                 "added_at": item.get("added_at"),
                 "load_timestamp": load_timestamp,
             }
@@ -82,7 +84,9 @@ def get_all_recently_played(access_token: str, url: str) -> list:
             {
                 "song_id": track.get("id"),
                 "song_name": track.get("name"),
+                "artist_id": [artist.get("id") for artist in track.get("artists", [])],
                 "artist": [artist.get("name") for artist in track.get("artists", [])],
+                "duration_ms": track.get("duration_ms"),
                 "played_at": item.get("played_at"),
                 "context": (item.get("context") or {}).get("type"),
                 "load_timestamp": load_timestamp,
@@ -118,14 +122,17 @@ def get_top_items_user(access_token: str, item_type: str) -> list:
         params = None
 
     cleaned = []
-    for item in items:
+    for rank, item in enumerate(items, start= 1):
         if not item.get("name"):
             continue
 
         cleaned.append(
             {
+                "rank": rank,
                 "song_id": item.get("id"),
                 "song_name": item.get("name"),
+                "duration": item.get("duration_ms"),
+                "artist_id": [artist.get("id") for artist in item.get("artists", [])],
                 "artist": [artist.get("name") for artist in item.get("artists", [])],
                 "load_timestamp": load_timestamp,
             }
