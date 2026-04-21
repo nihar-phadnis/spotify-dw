@@ -128,3 +128,26 @@ through to staging tables
 **Reason:** Required to enable rank tracking over time in 
 mart_top_tracks_ranking. LAG() window function needs a consistent 
 timestamp to compare ranks across weekly loads.
+
+## ADR-020: Decouple extract and load into separate tasks
+**Date:** 18th April, 2026
+**Decision:** Load to DuckDB will be a separate task from extract
+**Reason:** If DuckDB load fails, JSON files are preserved and load 
+can be rerun independently without re-hitting the Spotify API. 
+Maps cleanly to separate Airflow tasks and keeps concerns separated.
+
+
+## ADR-021: Three layer architecture in DuckDB and dbt
+**Date:** 18th April, 2026
+**Decision:** Raw → Staging → Marts as three distinct layers
+**Reason:** Raw preserves JSON as landed, staging handles flattening 
+and typing, marts contain business logic and star schema. Clear 
+separation of concerns at each layer.
+
+## ADR-022: Defer common config refactor
+**Date:** 18th April, 2026
+**Decision:** Duplicated base_path in load/ rather than creating 
+a shared common/ module immediately
+**Reason:** Only one variable needs sharing at this stage. Refactor 
+into common/ deferred until Airflow setup forces a cleaner project 
+structure anyway. Noted as future improvement.
