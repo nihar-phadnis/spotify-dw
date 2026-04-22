@@ -151,3 +151,17 @@ a shared common/ module immediately
 **Reason:** Only one variable needs sharing at this stage. Refactor 
 into common/ deferred until Airflow setup forces a cleaner project 
 structure anyway. Noted as future improvement.
+
+## ADR-023: CREATE OR REPLACE strategy for DuckDB raw tables
+**Date:** 22nd April, 2026
+**Decision:** Use CREATE OR REPLACE TABLE when loading JSON into DuckDB
+**Reason:** Simpler and more reliable than tracking which files have been loaded. Prevents duplicate rows from multiple extract runs. Raw JSON files on disk remain single source of truth. 
+
+## ADR-024: Different filename strategies per endpoint
+**Date:** 22nd April, 2026
+**Decision:** top_tracks and playlist_tracks use date-only filenames, 
+recently_played uses date and timestamp
+**Reason:** top_tracks and playlist_tracks change slowly — reruns on 
+the same day should overwrite rather than create duplicates. 
+recently_played is time-series data where each run captures genuinely 
+new plays, so multiple files per day is valid.
