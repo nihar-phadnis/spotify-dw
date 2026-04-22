@@ -33,7 +33,7 @@ SCOPE_STRING = "%20".join(raw_scopes)  # URL-encoded string for OAuth URL
 SCOPE_AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_AUTH_URL = "https://accounts.spotify.com/api/token"
 
-TOKEN_PATH = "token.json"
+TOKEN_PATH = Path(__file__).parent.parent / "token.json"
 
 # Build absolute path to .env from this file's location
 env_path = Path(__file__).parent.parent / ".env"
@@ -42,14 +42,24 @@ load_dotenv(dotenv_path=env_path)
 # ———— Base path ————
 base_path = Path(__file__).parent.parent / "data/raw"
 
+DATE_FORMATS = {
+    "recently_played": "%Y-%m-%d-%H-%M-%S",
+    "top_tracks": "%Y-%m-%d",
+    "playlist_tracks": "%Y-%m-%d",
+}
 
 def local_file_path(endpoint_type, partition_date = None): 
     if partition_date is None: 
         partition_date = datetime.now(timezone.utc)
+    
+    if endpoint_type not in DATE_FORMATS:
+          raise ValueError(f"Invalid end_point: {endpoint_type}" )
+    
+    date_str = partition_date.strftime(DATE_FORMATS[endpoint_type])
 
     return(
-        f"{base_path}/{endpoint_type}"
+        f"{base_path.as_posix()}/{endpoint_type}"
         f"/Y={partition_date.year}"
         f"/M={partition_date.month:02d}"
-        f"/{endpoint_type}_{partition_date.strftime('%Y-%m-%d-%H-%M-%S')}.json"
+        f"/{endpoint_type}_{date_str}.json"
     )
