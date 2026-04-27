@@ -165,3 +165,8 @@ recently_played uses date and timestamp
 the same day should overwrite rather than create duplicates. 
 recently_played is time-series data where each run captures genuinely 
 new plays, so multiple files per day is valid.
+
+## ADR-025: Adding profiles.yml in the ~/.dbt folder
+**Date:** 27th April, 2026
+**Decision:** Deliberately exclude from the source control and should be outside of project entirely
+**Reason:** It contains machine-specific paths that differ per developer there is no point in committing. It should be created by each developer manually cloning this repo. Lives in ~/.dbt by convention
