@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: spotify_raw
+    schema: raw
+    tables:
+      - name: playlist_tracks
+      - name: recently_played
+      - name: top_tracks
