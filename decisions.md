@@ -169,4 +169,14 @@ new plays, so multiple files per day is valid.
 ## ADR-025: Adding profiles.yml in the ~/.dbt folder
 **Date:** 27th April, 2026
 **Decision:** Deliberately exclude from the source control and should be outside of project entirely
-**Reason:** It contains machine-specific paths that differ per developer there is no point in committing. It should be created by each developer manually cloning this repo. Lives in ~/.dbt by convention
+**Reason:** It contains machine-specific paths that differ per developer there is no point in committing. It should be created by each developer manually cloning this repo. Lives in ~/.dbt by convention. 
+
+## ADR-026: Added optional sys arguments in the load_to_duckdb.py
+**Date:** 30th April, 2026
+**Decision:** Added optional argument to load data in the prod environment (spotify.duckdb) with default being in dev.
+**Reason:** This would only load data in the prod environment intentionally, with all the experiments and sandbox being handled in the dev environment
+
+## ADR-027: Staging models follow source/rename CTE pattern
+**Date:** 30th April, 2026
+**Decision:** Consistent structure across all three staging models.
+**Reason:** To follow dbt conventions on keeping the source/rename tags as it helps anyone reading the code understand pretty quickly. Also helps to have a consistent structure and naming convention across all three staging models
