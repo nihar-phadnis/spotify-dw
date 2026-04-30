@@ -214,4 +214,6 @@ __marimo__/
 data/raw/
 dbt_spotify/profiles.yml
 token.json
+spotify.duckdb
+dev.duckdb
 
