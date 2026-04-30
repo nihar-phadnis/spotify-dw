@@ -32,7 +32,7 @@ def get_all_playlist_tracks(access_token: str, playlist_id: str) -> list:
 
     cleaned_tracks = []
     for item in all_tracks:
-        track = item.get("item")  # Spotify playlist items use "item"
+        track = item.get("item")  # Spotify playlist items use "item" instead of tracks now
         if not track:
             continue
 
@@ -41,7 +41,7 @@ def get_all_playlist_tracks(access_token: str, playlist_id: str) -> list:
                 "song_id": track.get("id"),
                 "song_name": track.get("name"),
                 "artist_id": [artist.get("id") for artist in track.get("artists", [])],
-                "artists": [artist.get("name") for artist in track.get("artists", [])],
+                "artist": [artist.get("name") for artist in track.get("artists", [])],
                 "duration_ms": track.get("duration_ms"),
                 "added_at": item.get("added_at"),
                 "load_timestamp": load_timestamp,
@@ -107,6 +107,7 @@ def get_all_recently_played(access_token: str, url: str) -> list:
 
 # --- Top tracks ---
 def get_top_items_user(access_token: str, item_type: str) -> list:
+    
     items = []
     url = f"https://api.spotify.com/v1/me/top/{item_type}"
     params = {"limit": 50, "time_range": "long_term"}
@@ -122,7 +123,7 @@ def get_top_items_user(access_token: str, item_type: str) -> list:
         params = None
 
     cleaned = []
-    for rank, item in enumerate(items, start= 1):
+    for rank, item in enumerate(items, start= 1): #Use enumerate here as tracking index of each track as it comes is equal to ranking
         if not item.get("name"):
             continue
 
@@ -164,3 +165,6 @@ if __name__ == "__main__":
 
     elif command == "top_items_user":
         get_top_items_user(access_token, "tracks")
+
+    else:
+        raise ValueError(f"Invalid command: {command}")
