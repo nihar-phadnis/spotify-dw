@@ -185,3 +185,8 @@ new plays, so multiple files per day is valid.
 **Date:** 4th May, 2026
 **Decision:** Take only the latest file for 'top tracks' and 'playlist tracks' whilst ingesting all files for recently played
 **Reason:** Loading all files in top tracks and playlist tracks would cause duplicates in the respective tables. Only the most updated information is need for these files (also tied to ADR-006). Recently played will keep load all its extracted files from everyday ingest
+
+## ADR-029: Fact tables stay at song level - no unnesting of artists in facts
+**Date:** 4th May, 2026
+**Decision:** Only include song id at fact level as artist id and other fields can be computed with existing relations with dim
+**Reason:** Unnesting the artist id would only repeat the work in the fact table, because of our relation between fact -> int_song_artist -> int_artists, we can use the artist name if needed. This keeps one row per event in the fact table, making aggregations simpler and debugging cleaner.
