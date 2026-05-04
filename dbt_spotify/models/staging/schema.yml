@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: stg_recently_played
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+      - name: song_name
+        tests: 
+          - not_null
+      - name: artist_id
+        tests: 
+          - not_null: 
+              config:
+                severity: warn
+      - name: artist #This is an array, so empty array is not null. Leave this for now and handle in marts when we unnest the arrays and each artist becomes a row
+      - name: duration_ms
+        tests: 
+          - not_null:
+              config:
+                severity: warn
+      - name: played_at
+        tests: 
+          - not_null
+          - unique:
+              config:
+                severity: warn
+      - name: context # This can legitimately be null, so leaving this for now
+      - name: load_timestamp
+        tests: 
+          - not_null
+  - name: stg_playlist_tracks
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+          - unique
+      - name: song_name
+        tests: 
+          - not_null
+      - name: artist_id
+        tests: 
+          - not_null
+      - name: artist #This is an array, so empty array is not null. Leave this for now and handle in marts when we unnest the arrays and each artist becomes a row
+      - name: duration_ms
+        tests: 
+          - not_null
+      - name: added_at
+        tests: 
+          - not_null
+          - unique
+      - name: load_timestamp
+        tests: 
+          - not_null
+
+  - name: stg_top_tracks
+    columns:
+      - name: rank #Every top track should have a rank and it should be unique
+        tests:
+          - not_null 
+          - unique
+      - name: song_id 
+        tests:
+          - not_null #Every song should have a value
+          - unique #Every song should only appear once
+      - name: song_name
+        tests: 
+          - not_null
+      - name: artist_id
+        tests: 
+          - not_null
+      - name: artist #This is an array, so empty array is not null. Leave this for now and handle in marts when we unnest the arrays and each artist becomes a row
+      - name: load_timestamp
+        tests: 
+          - not_null
