@@ -42,7 +42,7 @@ def get_all_playlist_tracks(access_token: str, playlist_id: str) -> list:
                 "song_name": track.get("name"),
                 "artist_id": [artist.get("id") for artist in track.get("artists", [])],
                 "artist": [artist.get("name") for artist in track.get("artists", [])],
-                "duration_ms": track.get("duration_ms"),
+                "duration": track.get("duration_ms"),
                 "added_at": item.get("added_at"),
                 "load_timestamp": load_timestamp,
             }
@@ -86,7 +86,7 @@ def get_all_recently_played(access_token: str, url: str) -> list:
                 "song_name": track.get("name"),
                 "artist_id": [artist.get("id") for artist in track.get("artists", [])],
                 "artist": [artist.get("name") for artist in track.get("artists", [])],
-                "duration_ms": track.get("duration_ms"),
+                "duration": track.get("duration_ms"),
                 "played_at": item.get("played_at"),
                 "context": (item.get("context") or {}).get("type"),
                 "load_timestamp": load_timestamp,
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     elif command == "recently_played":
         get_all_recently_played(access_token, url_recently_played)
 
-    elif command == "top_items_user":
+    elif command == "top_tracks":
         get_top_items_user(access_token, "tracks")
 
     else:
