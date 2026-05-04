@@ -180,3 +180,8 @@ new plays, so multiple files per day is valid.
 **Date:** 30th April, 2026
 **Decision:** Consistent structure across all three staging models.
 **Reason:** To follow dbt conventions on keeping the source/rename tags as it helps anyone reading the code understand pretty quickly. Also helps to have a consistent structure and naming convention across all three staging models
+
+## ADR-028: Different filename endpoint for load into duckdb strategies 
+**Date:** 4th May, 2026
+**Decision:** Take only the latest file for 'top tracks' and 'playlist tracks' whilst ingesting all files for recently played
+**Reason:** Loading all files in top tracks and playlist tracks would cause duplicates in the respective tables. Only the most updated information is need for these files (also tied to ADR-006). Recently played will keep load all its extracted files from everyday ingest
