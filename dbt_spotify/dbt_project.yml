@@ -34,5 +34,7 @@ models:
   dbt_spotify:
     staging:
       +materialized: view
+    intermediate:
+      +materialized: view
     marts:
       +materialized: table

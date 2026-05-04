@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: dim_songs
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+          - unique
+      - name: song_name
+        tests: 
+          - not_null
+      - name: duration
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+
+  - name: dim_artists
+    columns:
+      - name: artist_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique
+      - name: artist_name
+        tests: 
+          - not_null
+  
+  - name: fact_playlist_tracks
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+          - relationships: 
+              to: ref('dim_songs')
+              field: song_id
+      - name: added_at
+        tests: 
+          - not_null:
+              config:
+                severity: warn
+
+  - name: fact_top_tracks
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+          - relationships: 
+              to: ref('dim_songs')
+              field: song_id
+      - name: rank
+        tests: 
+          - not_null
+          - unique
+      - name: load_timestamp
+        tests:
+          - not_null
+  - name: fact_recently_played
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+          - relationships: 
+              to: ref('dim_songs')
+              field: song_id
+      - name: played_at
+        tests: 
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+      - name: context
+        tests:
+          - not_null:
+              config:
+                severity: warn

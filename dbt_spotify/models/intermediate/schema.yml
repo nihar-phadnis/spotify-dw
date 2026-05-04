@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_songs
+    columns:
+      - name: song_id 
+        tests:
+          - not_null
+      - name: song_name
+        tests: 
+          - not_null
+      - name: duration
+        tests:
+          - not_null:
+              config: 
+                severity: warn 
+  - name: int_artists
+    columns:
+      - name: artist_id 
+        tests:
+          - not_null:
+              config: 
+                severity: warn
+      - name: artist_name
+  - name: int_song_artists
+    columns:
+      - name: song_id 
+        tests:
+          - relationships:
+              to: ref('int_songs')
+              field: song_id
+          - not_null
+      - name: artist_id
+        tests: 
+          - relationships:
+              to: ref('int_artists')
+              field: artist_id

@@ -9,6 +9,7 @@ renamed AS (
         song_name, 
         artist_id, 
         artist,
+        duration,
         load_timestamp
     FROM source
 )
