@@ -2,9 +2,10 @@
 title: Nihar's mood dashboard
 ---
 
-<Details title='Welcome to your Spotify'>
-
-  This page can be found in your project at `/pages/index.md`. Make a change to the markdown file and save it to see the change take effect in your browser.
+<Details title='Welcome to your Spotify dashboard'>
+	
+  This is a part of your personal project (<a href="https://github.com/nihar-phadnis/spotify-dw">GitHub repo</a>). This dashboard gives you insights into your listening habits and surfaces any treats you may not have thought of before
+  
 </Details>
 
 
@@ -24,7 +25,6 @@ ORDER BY DATE_TRUNC('week', CAST(played_at AS DATE))
     data={spotify_weekly_usage}
     x=week_comm
     y=songs_played
-    yMax=45
     xAxisTitle= "Week commencing"
     labels=true
     sort=false
@@ -83,7 +83,6 @@ ORDER BY
     data={peak_listening_times}
     x=time_of_day
     y=number_of_songs
-    yMax=70
     labels=true
     sort=false
 />
