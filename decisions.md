@@ -190,3 +190,26 @@ new plays, so multiple files per day is valid.
 **Date:** 4th May, 2026
 **Decision:** Only include song id at fact level as artist id and other fields can be computed with existing relations with dim
 **Reason:** Unnesting the artist id would only repeat the work in the fact table, because of our relation between fact -> int_song_artist -> int_artists, we can use the artist name if needed. This keeps one row per event in the fact table, making aggregations simpler and debugging cleaner.
+
+## ADR -030: Evidence as a BI layer. Chosen over traditional BI tools
+**Date:** 6th May, 2026
+**Decision:** chosen over Power BI (licensing/concurrency), Tableau Public (privacy), Metabase. Reasons: code-first, portfolio-visible, free, static site
+**Reason:** In addition to the reasons above, Evidence will enable SQL based code for data analysis and markdown language to assist with creating basic viz. It also has functionality to be hosted on Netlify if the dashboard needs hosting
+
+## ADR -031: Power BI/Metabase ruled out
+**Date:** 6th May, 2026
+**Decision:** Explored Power BI/Metabase and ruled out due to expected concurrency issues consistent with DuckDB's single-writer limitation
+**Reason:** In addition, Power BI also needs a work/school account to login and get around the concurrency issues. Licensing issues would come in when hosting on the web service
+
+## ADR -032: Tableau Public ruled out due to privacy concerns
+**Date:** 6th May, 2026
+**Decision:** Explored Tableau public and decided to rule out based on data privacy concerns
+**Reason:** Tableau public would allow dataset to be downloadable by anyone; something not comfortable with privacy of this dataset
+
+## ADR -033: MotherDuck and cloud deferred to v2
+**Date:** 6th May, 2026
+**Decision:** Migration to cloud is changing of scope and is deferred to the next phase
+**Reason:** Need to iron out the local architecture and working first. Migration to cloud involves a more thoughtful approach
+
+
+

@@ -20,7 +20,7 @@ models:
           - not_null:
               config:
                 severity: warn
-      - name: played_at
+      - name: played_at #Due to Spotify quirks and transitioning between moving from desktop to mobile or vice versa, this can be a non-unique field
         tests: 
           - not_null
           - unique:
