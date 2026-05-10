@@ -8,7 +8,7 @@ renamed AS (
         song_name, 
         artist_id, 
         artist, 
-        duration, 
+        duration AS duration_ms, 
         added_at, 
         load_timestamp
     FROM source
