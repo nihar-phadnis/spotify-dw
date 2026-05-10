@@ -211,5 +211,18 @@ new plays, so multiple files per day is valid.
 **Decision:** Migration to cloud is changing of scope and is deferred to the next phase
 **Reason:** Need to iron out the local architecture and working first. Migration to cloud involves a more thoughtful approach
 
+## ADR-034: LocalExecutor over CeleryExecutor for Airflow
+**Date:** 10th May, 2026
+**Decision:** Use LocalExecutor instead of CeleryExecutor in docker-compose
+**Reason:** CeleryExecutor requires Redis and worker containers — unnecessary overhead for a single-user personal project with manual triggers. LocalExecutor runs tasks in the same process, simpler setup with fewer moving parts.
 
+## ADR-035: Standardise on duration_ms over duration
+**Date:** 10th May, 2026
+**Decision:** Renamed all duration column references to duration_ms across staging, intermediate and mart models
+**Reason:** Self-documenting column names are a data modelling best practice. duration_ms makes the unit explicit — a consumer of the data immediately knows the unit without checking documentation.
+
+## ADR-036: spotify.duckdb as prod database filename
+**Date:** 10th May, 2026
+**Decision:** Prod database named spotify.duckdb, dev database named dev.duckdb
+**Reason:** Clear and distinct naming convention. spotify.duckdb reflects the data domain, dev.duckdb signals a non-production environment. Avoids any risk of accidentally writing to prod during development.
 
