@@ -15,7 +15,7 @@ from auth import get_access_tokens
 from config import url_recently_played
 from load.load_to_duckdb import load_to_duckdb
 
-playlist_id = os.getenv('SPOTIFY_PLAYLIST_ID')
+playlist_id = os.getenv("playlist_id")
 access_token = get_access_tokens()
 
 DBT_CMD = '/mnt/c/Users/nihar.LAPTOP-JR3M3O05/OneDrive/Documents/VScode/spotify_dw/spotify-dw/.venv-wsl/bin/dbt run --target prod --project-dir /mnt/c/Users/nihar.LAPTOP-JR3M3O05/OneDrive/Documents/VScode/spotify_dw/spotify-dw/dbt_spotify'
