@@ -1,0 +1,8 @@
+[project]
+name = "spotify_dw"
+version = "0.1.0"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["extract*", "load*"]
