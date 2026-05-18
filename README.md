@@ -26,6 +26,7 @@ As part of the overview, here is the Architecture for this project:
 
 ## Here's the project structure that separates different layers 
 
+```
 spotify-dw/
 ├── extract/          # Python scripts for Spotify API extraction
 ├── load/             # Scripts to load JSON into DuckDB
@@ -39,7 +40,7 @@ spotify-dw/
 ├── data/             # Raw JSON files (gitignored)
 ├── decisions.md      # Architecture decision log
 └── requirements.txt  # Python dependencies
-
+```
 ## Setup instructions:
 
 Prerequisites
@@ -50,32 +51,32 @@ A Spotify account with a registered app. You will need the Client ID and Client 
 
 Run dbt against dev by default (`dbt run`) or prod explicitly (`dbt run --target prod`).
 
-#To clone the repo
-
+# 1. Clone the repo
 git clone https://github.com/nihar-phadnis/spotify-dw.git
 cd spotify-dw
 
-# Create and activate a virtual environment
+# 2. Create and activate a virtual environment
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows (Git Bash): .venv\Scripts\activate
 
-#Install dependencies:
+# 3. Install dependencies
 pip install -r requirements.txt
 
-#Configure credentials (I've uploaded an .env example file as the original .env is gitignored
+# 4. Configure credentials
 cp .env.example .env
+# Fill in your Spotify Client ID, Client Secret and Playlist ID in .env
 
-#Authenticate with Spotify to get access tokens. Please create your own app and create ClientID + secret_key first
+# 5. Authenticate with Spotify
 python extract/init_auth.py
 
-Create dbt profiles.yml
+# 6. Create dbt profiles.yml
 # Create ~/.dbt/profiles.yml manually — see profiles.yml.example for the template
 
-#Setup Airflow to orchestrate the pipeline using WSL on windows
+# 7. Set up Airflow (WSL only)
 pip install apache-airflow==2.9.1
 airflow standalone
 
-#Trigger the pipeline
+# 8. Trigger the pipeline
 # Go to http://localhost:8080 and trigger spotify_daily or spotify_weekly
 
 ## Environments
