@@ -51,34 +51,45 @@ A Spotify account with a registered app. You will need the Client ID and Client 
 
 Run dbt against dev by default (`dbt run`) or prod explicitly (`dbt run --target prod`).
 
-# 1. Clone the repo
+**1. Clone the repo**
+```bash
 git clone https://github.com/nihar-phadnis/spotify-dw.git
 cd spotify-dw
+```
 
-# 2. Create and activate a virtual environment
+**2. Create and activate a virtual environment**
+```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows (Git Bash): .venv\Scripts\activate
+```
 
-# 3. Install dependencies
+**3. Install dependencies**
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Configure credentials
+**4. Configure credentials**
+```bash
 cp .env.example .env
-# Fill in your Spotify Client ID, Client Secret and Playlist ID in .env
+```
+Fill in your Spotify Client ID, Client Secret and Playlist ID in `.env`
 
-# 5. Authenticate with Spotify
+**5. Authenticate with Spotify**
+```bash
 python extract/init_auth.py
+```
 
-# 6. Create dbt profiles.yml
-# Create ~/.dbt/profiles.yml manually — see profiles.yml.example for the template
+**6. Create dbt profiles.yml**
+Create `~/.dbt/profiles.yml` manually — see `profiles.yml.example` for the template
 
-# 7. Set up Airflow (WSL only)
+**7. Set up Airflow (WSL only)**
+```bash
 pip install apache-airflow==2.9.1
 airflow standalone
+```
 
-# 8. Trigger the pipeline
-# Go to http://localhost:8080 and trigger spotify_daily or spotify_weekly
-
+**8. Trigger the pipeline**
+Go to `http://localhost:8080` and trigger `spotify_daily` or `spotify_weekly`
 ## Environments
 
 The project runs two environments:
