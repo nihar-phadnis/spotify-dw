@@ -111,15 +111,15 @@ This project pulls from three Spotify API endpoints. Required scopes are defined
 | Top Tracks | Spotify's algorithmic ranking of your most played tracks | Weekly |
 | Playlist Tracks | All tracks from a specified playlist | Weekly |
 
-Top Tracks and Playlist Tracks are pulled weekly as both change slowly. Daily ingestion would add noise with minimal new signal (see ADR-006). Recently Played is pulled daily to capture fresh listening activity.
+Top Tracks and Playlist Tracks are pulled weekly as both change slowly. Daily ingestion would add noise with minimal new signal (see [ADR-006](decisions.md#adr-006-top-tracks-extract-frequency)). Recently Played is pulled daily to capture fresh listening activity.
 
 ## Data model: 
 
 [Here is the data model]
 
-The warehouse follows a star schema design. See ADR-012 for the full reasoning.
+The warehouse follows a star schema design. See [ADR-012](decisions.md#adr-012-star-schema-design-for-transform-layer) for the full reasoning.
 
-**Dimension tables:** sourced from a union of all three endpoints to ensure songs and artists are never lost from the dimension if they drop out of a single source (ADR-018):
+**Dimension tables:** sourced from a union of all three endpoints to ensure songs and artists are never lost from the dimension if they drop out of a single source ([ADR-018](decisions.md#adr-018-songs-and-artists-dimensions-sourced-from-union-of-all-endpoints)):
 
 | Table | Description |
 |-------|-------------|
@@ -134,7 +134,7 @@ The warehouse follows a star schema design. See ADR-012 for the full reasoning.
 | fact_top_tracks | Spotify's algorithmic top track rankings |
 | fact_playlist_tracks | Tracks in the user's defined playlist |
 
-**Bridge table:** resolves the many-to-many relationship between songs and artists (ADR-013):
+**Bridge table:** resolves the many-to-many relationship between songs and artists [ADR-013](decisions.md#adr-013-bridge-table-for-song-artist-relationship):
 
 | Table | Description |
 |-------|-------------|
