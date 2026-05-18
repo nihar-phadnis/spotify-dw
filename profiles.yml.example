@@ -1,0 +1,17 @@
+dbt_spotify:
+  outputs:
+    dev:
+      type: duckdb
+      # Path to your local dev DuckDB file
+      path: /path/to/your/dev.duckdb
+      threads: 1
+
+    prod:
+      type: duckdb
+      # Path to your local prod DuckDB file
+      path: /path/to/your/spotify.duckdb
+      # More threads for prod runs
+      threads: 4
+
+  # Default target — keep as dev to avoid accidental prod runs
+  target: dev
