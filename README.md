@@ -14,7 +14,9 @@ As part of the overview, here is the Architecture for this project:
 
 [Insert architecture diagram here]
 
-## Here is the tech stack that would be useful to know. This also includes a 'Why' which is a thought behind each decision. For more detail view: please go to my ADRs here. 
+## Tech stack
+
+Here is the tech stack that would be useful to know. This also includes a 'Why' which is a thought behind each decision. For more detail view: please go to my ADRs here[decisions.md](decisions.md). 
 
 | Layer | Tool | Why |
 |-------|------|-----|
