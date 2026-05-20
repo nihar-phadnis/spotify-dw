@@ -115,7 +115,7 @@ Top Tracks and Playlist Tracks are pulled weekly as both change slowly. Daily in
 
 ## Data model: 
 
-[Here is the data model]
+![Data model](docs/img/data_model.svg)
 
 The warehouse follows a star schema design. See [ADR-012](decisions.md#adr-012-star-schema-design-for-transform-layer) for the full reasoning.
 
