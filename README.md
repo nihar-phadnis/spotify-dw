@@ -12,7 +12,11 @@ The project mirrors real DE practices throughout: a layered architecture (raw â†
 
 As part of the overview, here is the Architecture for this project: 
 
-![Architecture](docs/img/spotify-data-architecture.svg)
+<picture>
+	<source media="(prefers-color-scheme: dark)" srcset="docs/img/spotify-data-architecture (dark).svg">
+	<source media="(prefers-color-scheme: light)" srcset="docs/img/spotify-data-architecture (light).png">
+	<img alt="Architecture diagram" src="docs/img/spotify-data-architecture (light).png">
+</picture>
 
 ## Tech stack
 
