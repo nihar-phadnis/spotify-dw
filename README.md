@@ -12,7 +12,7 @@ The project mirrors real DE practices throughout: a layered architecture (raw â†
 
 As part of the overview, here is the Architecture for this project: 
 
-[Insert architecture diagram here]
+![Architecture](docs/img/spotify-data-architecture.svg)
 
 ## Tech stack
 
