@@ -1,4 +1,4 @@
-# spotify-dw
+ # spotify-dw
 
 Personal data engineering project — Spotify API → DuckDB → dbt → Airflow → BI
 
@@ -6,7 +6,7 @@ Personal data engineering project — Spotify API → DuckDB → dbt → Airflow
 
 The aim of this project is to step into the field of Data engineering. A personal data engineering project built to analyse my Spotify listening habits and put into practice the core skills of a data engineer. The pipeline extracts data from the Spotify API, loads it into a local DuckDB warehouse, transforms it using dbt, and surfaces insights through an Evidence dashboard — orchestrated end-to-end by Apache Airflow.
 
-This project implements stacks that an actual DE would do; thus learning & tracing the steps needed to upskill into this field. The pipeline extracts data from the Spotify API, loads it into a local DuckDB warehouse, transforms it using dbt, and surfaces insights through an Evidence dashboard: orchestrated end-to-end by Apache Airflow. Spotify was chosen deliberately over publicly available datasets. Working with a live, personal API introduces real engineering challenges such as authentication, pagination, rate limits, and incremental loads which the static datasets don't. The personal nature of the data also provides a genuine incentive to maintain and improve the pipeline over time.
+This project implements stacks that an actual DE would do; thus learning & tracing the steps needed to upskill into this field. Spotify was chosen deliberately over publicly available datasets. Working with a live, personal API introduces real engineering challenges such as authentication, pagination, rate limits, and incremental loads which the static datasets don't. The personal nature of the data also provides a genuine incentive to maintain and improve the pipeline over time.
 
 The project mirrors real DE practices throughout: a layered architecture (raw → staging → marts), a star schema data model, separation of concerns between extract, load and transform, and documented architecture decisions for every meaningful choice made along the way. A cloud-hosted version (MotherDuck + managed Airflow) is planned for v2. 
 
@@ -30,7 +30,7 @@ Here is the tech stack that would be useful to know. This also includes a 'Why' 
 | Orchestration | Apache Airflow | Industry-standard orchestrator, maps cleanly to individual pipeline tasks |
 | Visualisation | Evidence | Code-first, SQL-based, portfolio-visible (No licensing or privacy concerns unlike Tableau Public or Power BI) |
 
-## Here's the project structure that separates different layers 
+## Project structure 
 
 ```
 spotify-dw/
@@ -49,11 +49,10 @@ spotify-dw/
 ```
 ## Setup instructions:
 
-Prerequisites
-
-Python 3.11+
-WSL2 (Windows users only)
-A Spotify account with a registered app. You will need the Client ID and Client Secret in your env
+**Prerequisites**
+- Python 3.11+
+- WSL2 (Windows users only)
+- Spotify developer account with a [registered app](https://developer.spotify.com/dashboard)
 
 Run dbt against dev by default (`dbt run`) or prod explicitly (`dbt run --target prod`).
 
@@ -215,7 +214,7 @@ All major decisions made throughout this project are documented as Architecture 
 Known limitations: 
 
 - The pipeline only runs when local machine is switched on; there is no cloud scheduling exists at the moment and is planned for v2 of this project
-- Airflow runs in standalone model which is not a production grade. This is due to memory constraints on the local machine.
+- Airflow runs in standalone mode which is not a production grade. This is due to memory constraints on the local machine.
 - Like the pipeline, Evidence dashboard is local only and not publicly hosted
 
 v2 Roadmap:
@@ -227,3 +226,4 @@ v2 Roadmap:
 | Cloud hosted dashboard | Deploy Evidence using Netlify |
 | CI/CD | GitHub actions to run pipeline on push |
 | Data quality | Expand dbt tests across all models |
+
