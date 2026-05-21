@@ -221,6 +221,7 @@ Known limitations:
 v2 Roadmap:
 
 | Feature | Detail |
+|---------|--------|
 | Cloud migration | Move DuckDB to Motherduck |
 | Managed orchestration | Replace local scheduler Airflow with a cloud scheduler |
 | Cloud hosted dashboard | Deploy Evidence using Netlify |
