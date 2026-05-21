@@ -144,6 +144,85 @@ The warehouse follows a star schema design. See [ADR-012](decisions.md#adr-012-s
 |-------|-------------|
 | int_song_artists | Maps songs to their associated artists |
 
+## Dashboard 
+
+Following is the result of all the work on a working dashboard on Evidence: 
+
+Weekly usage summary
+
+```
+SELECT 
+  strftime(CAST(DATE_TRUNC('week', CAST(played_at AS DATE)) AS DATE), '%-d %B') AS week_comm,
+  COUNT(song_id) AS songs_played
+FROM spotify.fact_recently_played
+WHERE DATE_TRUNC('week', CAST(played_at AS DATE)) > (CURRENT_DATE - INTERVAL '5 weeks')
+GROUP BY DATE_TRUNC('week', CAST(played_at AS DATE))
+ORDER BY DATE_TRUNC('week', CAST(played_at AS DATE))
+
+```
+![Dashboard](docs/img/weekly_usage.png)
+
+
+Peak listening times 
+
+```
+SELECT 
+  CASE 
+  WHEN hour_of_the_day BETWEEN 7 AND 11 THEN 'Morning (7-11)'
+  WHEN hour_of_the_day BETWEEN 12 AND 16 THEN 'Afternoon (12-16)'
+  WHEN hour_of_the_day BETWEEN 17 AND 20 THEN 'Evening (17-20)'
+  WHEN hour_of_the_day BETWEEN 21 AND 23 THEN 'Bedtime (21-23)'
+  WHEN hour_of_the_day BETWEEN 0 AND 6 THEN 'After Hours (0-6)'
+	END AS time_of_day, 
+  SUM(number_of_songs) AS number_of_songs
+FROM song_played_by_hour
+GROUP BY 1
+ORDER BY 
+	CASE time_of_day
+		WHEN 'After Hours (0-6)' THEN 1
+  		WHEN 'Morning (7-11)' THEN 2
+		WHEN 'Afternoon (12-16)' THEN 3
+		WHEN 'Evening (17-20)' THEN 4
+		WHEN 'Bedtime (21-23)' THEN 5
+	END
+
+```
+![Dashboard](docs/img/peak_listening.png)
+
+Top tracks by Spotify
+```
+WITH top_tracks_not_in_playlist AS (SELECT ds.song_name, 
+  		tt.rank, 
+	CASE WHEN tt.song_id IN (
+    	SELECT song_id FROM spotify.fact_playlist_tracks
+	) THEN 'Yes' ELSE 'No' END AS in_playlist
+  
+FROM spotify.fact_top_tracks tt
+JOIN spotify.dim_songs ds
+ON tt.song_id = ds.song_id
+ORDER BY 2
+LIMIT 5)
+SELECT * FROM top_tracks_not_in_playlist
+```
+![Dashboard](docs/img/top_tracks.png)
+
 ## Architecture Decisions
 
 All major decisions made throughout this project are documented as Architecture Decision Records (ADRs) in [decisions.md](decisions.md). These cover tooling choices, schema design, pipeline design, and infrastructure decisions.
+
+## Known limitations / Future work
+
+Known limitations: 
+
+- The pipeline only runs when local machine is switched on; there is no cloud scheduling exists at the moment and is planned for v2 of this project
+- Airflow runs in standalone model which is not a production grade. This is due to memory constraints on the local machine.
+- Like the pipeline, Evidence dashboard is local only and not publicly hosted
+
+v2 Roadmap:
+
+| Feature | Detail |
+| Cloud migration | Move DuckDB to Motherduck |
+| Managed orchestration | Replace local scheduler Airflow with a cloud scheduler |
+| Cloud hosted dashboard | Deploy Evidence using Netlify |
+| CI/CD | GitHub actions to run pipeline on push |
+| Data quality | Expand dbt tests across all models |
