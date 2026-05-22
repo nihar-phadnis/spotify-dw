@@ -147,9 +147,9 @@ The warehouse follows a star schema design. See [ADR-012](decisions.md#adr-012-s
 
 Following is the result of all the work on a working dashboard on Evidence: 
 
-Weekly usage summary
+**Weekly usage summary** - tracks how many songs were played each week over the last 5 weeks:
 
-```
+```sql
 SELECT 
   strftime(CAST(DATE_TRUNC('week', CAST(played_at AS DATE)) AS DATE), '%-d %B') AS week_comm,
   COUNT(song_id) AS songs_played
@@ -162,9 +162,9 @@ ORDER BY DATE_TRUNC('week', CAST(played_at AS DATE))
 ![Dashboard](docs/img/weekly_usage.png)
 
 
-Peak listening times 
+**Peak listening times** - tracks the number of songs listening categorised by the time of the day - Morning, Afternoon, Evening, Bedtime: 
 
-```
+```sql
 SELECT 
   CASE 
   WHEN hour_of_the_day BETWEEN 7 AND 11 THEN 'Morning (7-11)'
@@ -188,20 +188,37 @@ ORDER BY
 ```
 ![Dashboard](docs/img/peak_listening.png)
 
-Top tracks by Spotify
-```
-WITH top_tracks_not_in_playlist AS (SELECT ds.song_name, 
-  		tt.rank, 
-	CASE WHEN tt.song_id IN (
-    	SELECT song_id FROM spotify.fact_playlist_tracks
-	) THEN 'Yes' ELSE 'No' END AS in_playlist
-  
-FROM spotify.fact_top_tracks tt
-JOIN spotify.dim_songs ds
-ON tt.song_id = ds.song_id
-ORDER BY 2
-LIMIT 5)
-SELECT * FROM top_tracks_not_in_playlist
+**Surging tracks not in playlist** - songs played frequently in the last 3 months that you haven't saved to your playlist yet:
+
+```sql
+WITH recently_played_not_playlist AS (
+  SELECT 
+  	rp.song_id, 
+  	ds.song_name, 
+  	rp.played_at
+FROM spotify.fact_recently_played rp 
+	JOIN spotify.dim_songs ds
+	ON ds.song_id = rp.song_id
+WHERE rp.song_id NOT IN (SELECT song_id FROM spotify.fact_playlist_tracks
+  ) AND CAST(rp.played_at AS DATE) > CURRENT_DATE - INTERVAL '3' MONTH
+),
+
+counted AS(
+  SELECT 
+  	song_name, 
+  	COUNT(song_id) AS song_plays, 
+  	MAX(played_at) AS last_played
+FROM recently_played_not_playlist
+GROUP BY 1
+  )
+
+SELECT 
+	song_name, 
+	song_plays, 
+	RANK() OVER(ORDER BY song_plays DESC, last_played DESC) AS rnk
+FROM counted
+ORDER BY rnk
+LIMIT 5
 ```
 ![Dashboard](docs/img/top_tracks.png)
 
