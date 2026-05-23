@@ -220,7 +220,7 @@ FROM counted
 ORDER BY rnk
 LIMIT 5
 ```
-![Dashboard](docs/img/top_tracks.png)
+![Dashboard](docs/img/surging_tracks.png)
 
 ## Architecture Decisions
 
