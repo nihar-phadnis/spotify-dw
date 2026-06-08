@@ -265,71 +265,71 @@ new plays, so multiple files per day is valid.
 
 
 
-\## ADR-037: Docker dropped in favour of Airflow Standalone in WSL
+## ADR-037: Docker dropped in favour of Airflow Standalone in WSL
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Dropped Docker for Airflow, running Airflow Standalone directly in WSL instead
+**Decision:** Dropped Docker for Airflow, running Airflow Standalone directly in WSL instead
 
 Reason: 8GB RAM machine couldn't run Docker Desktop alongside VS Code and other tools. Airflow Standalone is significantly lighter and sufficient for a single-user local pipeline with manual triggers.
 
 
 
-\## ADR-038: Two DAGs over one
+## ADR-038: Two DAGs over one
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Split pipeline into spotify\_daily and spotify\_weekly DAGs
+**Decision:** Split pipeline into spotify_daily and spotify_weekly DAGs
 
 Reason: Recently played needs daily runs, top tracks and playlist tracks change slowly and only need weekly runs. Separate DAGs keep concerns clean and match ADR-006.
 
 
 
-\## ADR-039: Shared helpers module for DAG code
+## ADR-039: Shared helpers module for DAG code
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Created spotify\_helpers.py to share imports, constants and config between DAGs
+**Decision:** Created spotify_helpers.py to share imports, constants and config between DAGs
 
 Reason: Keeps DAG files DRY — avoids duplicating paths, credentials and imports across multiple DAG files.
 
 
 
-\## ADR-040: Full absolute paths for BashOperator commands
+## ADR-040: Full absolute paths for BashOperator commands
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Use full absolute paths for dbt executable and project directory in BashOperator
+**Decision:** Use full absolute paths for dbt executable and project directory in BashOperator
 
 Reason: Airflow's BashOperator runs in a fresh shell without venv activated — relative paths and unqualified commands like dbt fail with exit code 127.
 
 
 
-\## ADR-041: profiles.yml created in \~/.dbt in WSL
+## ADR-041: profiles.yml created in \~/.dbt in WSL
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Created WSL-specific profiles.yml in \~/.dbt/ with Linux paths
+**Decision:** Created WSL-specific profiles.yml in \~/.dbt/ with Linux paths
 
 Reason: Consistent with ADR-025. WSL uses /mnt/c/ path format which differs from Windows paths in the original profiles.yml.
 
 
 
-\## ADR-042: extract.auth import path made explicit
+## ADR-042: extract.auth import path made explicit
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Changed from auth import to from extract.auth import in main.py
+**Decision:** Changed from auth import to from extract.auth import in main.py
 
 Reason: Relative imports that work when running locally from the extract folder break when run by Airflow from a different working directory. Explicit package paths are robust regardless of execution context.
 
 
 
-\## ADR-043: Manual triggers for v1
+## ADR-043: Manual triggers for v1
 
-\*\*Date:\*\* 17th May, 2026
+**Date:** 17th May, 2026
 
-\*\*Decision:\*\* Both DAGs use schedule=None — manual triggers only
+**Decision:** Both DAGs use schedule=None — manual triggers only
 
 Reason: Pipeline only runs when PC is on. Manual control is safer than a scheduler missing runs silently. Automated scheduling deferred to v2 cloud migration.
 
